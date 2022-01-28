@@ -1,0 +1,252 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="" />
+        <meta name="author" content="" />
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+        <script src="https://polyfill.io/v3/polyfill.min.js?version=3.52.1&features=fetch"></script>
+        <script src="https://js.stripe.com/v3/"></script>
+
+        <title>Szaszłyk na węglach</title>
+
+        <script rel="text/javascript" src="{% static 'main_app/app.js' %}"></script>
+
+
+        <!--    MAP    -->
+        <script src='https://api.mapbox.com/mapbox-gl-js/v2.3.1/mapbox-gl.js'></script>
+        <link href='https://api.mapbox.com/mapbox-gl-js/v2.3.1/mapbox-gl.css' rel='stylesheet' />
+
+
+        <link rel="stylesheet" type="text/css" href="{% static 'main_app/style.css' %}">
+
+        <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
+
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+              integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
+              crossorigin="anonymous">
+    </head>
+
+    <body>
+
+        <nav class="navbar fixed-top navbar-expand-lg navbar-light bg-warning">
+            <div class="container px-4 px-lg-1">
+
+                <a class="navbar-brand" href="#"><strong>Na węngle</strong> | rodzinna restauracja</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
+                        <li class="nav-item active"><a class="nav-link" href="{% url 'main_app:main' %}">
+                            <strong>GŁÓWNA</strong>
+                        </a></li>
+
+                        <li class="nav-item"><a class="nav-link" href="{% url 'main_app:all-dishes' %}">
+                            <strong>WSZYSTKO</strong>
+                        </a></li>
+
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" id="navbarDropdown1" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><strong>DANIA</strong></a>
+                            <ul class="dropdown-menu bg-warning text-center" aria-labelledby="navbarDropdown1">
+                                <li><a class="dropdown-item bg-warning" href="{% url 'main_app:main-dishes' %}">Szaszłyk</a></li>
+                                <li><a class="dropdown-item bg-warning" href="{% url 'main_app:salads' %}">Sałatki</a></li>
+                                <li><a class="dropdown-item bg-warning" href="{% url 'main_app:sous' %}">Susy</a></li>
+                                <li><a class="dropdown-item bg-warning" href="{% url 'main_app:additives' %}">Dodatki</a></li>
+                                <li><a class="dropdown-item bg-warning" href="{% url 'main_app:drinks' %}">Napoje</a></li>
+                            </ul>
+                        </li>
+
+<!--                        <li class="nav-item"><a class="nav-link" href="{% url 'main_app:main-dishes' %}">-->
+<!--                            <strong>Szaszłyk</strong>-->
+<!--                        </a></li>-->
+
+<!--                        <li class="nav-item"><a class="nav-link" href="{% url 'main_app:salads' %}">-->
+<!--                            <strong>Sałatki</strong>-->
+<!--                        </a></li>-->
+
+<!--                        <li class="nav-item"><a class="nav-link" href="{% url 'main_app:drinks' %}">-->
+<!--                            <strong>Napoje</strong>-->
+<!--                        </a></li>-->
+
+<!--                        <li class="nav-item"><a class="nav-link" href="{% url 'main_app:sous' %}">-->
+<!--                            <strong>Susy</strong>-->
+<!--                        </a></li>-->
+
+<!--                        <li class="nav-item"><a class="nav-link" href="{% url 'main_app:additives' %}">-->
+<!--                            <strong>Dodatki</strong>-->
+<!--                        </a></li>-->
+
+<!--                        <li class="nav-item"><a class="nav-link" href="{% url 'main_app:about' %}">-->
+<!--                            O NAS-->
+<!--                        </a></li>-->
+
+                        <li class="nav-item"><a class="nav-link" href="{% url 'main_app:contact' %}">
+                            KONTAKT
+                        </a></li>
+                    </ul>
+
+
+                </div>
+
+                <div class="cart">
+                    {% with total_items=cart|length %}
+                        {% if cart|length > 0 %}
+                        <button class="btn btn-outline-dark mt-auto bg-color-warning" type="submit">
+                            <a style="text-decoration: none; color: black;" href="{% url 'cart:session-cart' %}">
+                                Koszyk:
+                                {{ cart.get_total_price }} zl.
+                            </a>
+                        </button>
+                        {% else %}
+                        <button class="btn btn-outline-dark mt-auto bg-color-warning" type="submit">
+                            <a style="text-decoration: none; color: black;" href="{% url 'cart:session-cart' %}">
+                                Koszyk jest pusty
+                            </a>
+                        </button>
+                        {%endif%}
+                    {%endwith%}
+                </div>
+
+            </div>
+        </nav>
+        <br>
+        <br>
+
+
+        {% block content %}
+
+
+        <header class="bg-warning py-4">
+            <div class="container px-4 px-lg-5 my-5">
+                <div class="text-center text-brown">
+                    <h1 class="display-6 fw-bolder">Na węngle</h1>
+                    <p class="lead fw-normal text-brown-50 mb-0">z naszej rodziny na twój stół</p>
+                </div>
+            </div>
+        </header>
+
+
+        {% if messages %}
+            {% for message in messages %}
+                {% if message.tags == 'success' %}
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    <p class="text-center"><strong>{{ message }}</strong></p>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+                {% else %}
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <p class="text-center"><strong>{{ message }}</strong></p>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+                {% endif %}
+            {% endfor %}
+        {% endif %}
+    <section class="py-5">
+        <div class="container px-4 px-lg-5 mt-5">
+            <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
+                {% for product in page_obj %}
+                    <div class="col mb-5">
+                        <div class="card h-100">
+
+                            <img class="card-img-top" src="{{ product.image.url }}" alt="..." />
+
+                            <div class="card-body p-3">
+                                <div class="text-center">
+                                    <h5><a href="#" style="text-decoration: none; color: black;" data-bs-toggle="modal" data-bs-target="#exampleModal-{{ product.slug }}">
+                                        {{ product.title }}
+                                    </a></h5>
+                                    <h6>{{ product.price }} zl.</h6>
+
+                                    <div class="modal fade" id="exampleModal-{{ product.slug }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog modal-lg">
+                                            <div class="modal-content">
+                                                <div class="modal-header bg-warning">
+                                                    <h5 class="modal-title" id="exampleModalLabel"><strong>{{ product.title }}</strong></h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <div class="row">
+                                                        <div class="column" style="float: left; width: 50%;">
+                                                            <img class="card-img-top" src="{{ product.image.url }}" alt="..." />
+                                                        </div>
+                                                        <div class="column" style="float: right; width: 50%;">
+                                                            <br>
+                                                            <h6>{{product.description}}</h6>
+                                                            <br>
+                                                            {% if product.weight %}
+                                                                <h6>waga: {{product.weight}}</h6>
+                                                                <h6>cena: {{product.price}}</h6>
+                                                            {% else %}
+                                                                <h6>cena: {{product.price}}</h6>
+                                                            {% endif %}
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <form style="display: flex; margin-left: 30%; width: 80%;" action="{% url 'cart:cart_add' product.pk %}" method="POST">
+                                                        {% csrf_token %}
+                                                        <input class="form-control" name="quantity" style="size: fixed; width: 38px;" min="1" value="1">
+                                                        <input type="submit" class="btn btn-outline-dark mt-auto" style="width: 100px;" value="dodać">
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="card-footer p-0 pt-0 border-top-0 bg-transparent">
+                                <div>
+                                    <div class="modal-footer text-center">
+                                        <form style="display: flex; margin-left: 30%; width: 80%;" action="{% url 'cart:cart_add' product.pk %}" method="POST">
+                                            {% csrf_token %}
+                                            <input class="form-control" name="quantity" style="size: fixed; width: 38px;" min="1" value="1">
+                                            <input type="submit" class="btn btn-outline-dark mt-auto" style="width: 100px;" value="dodać">
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+        <div style="left: 0; bottom: 0; text-align: center;">
+            <a href="{% url 'main_app:all-dishes' %}">
+                <button class="btn btn-warning text-center">wszystkie dania tutaj</button>
+            </a>
+        </div>
+
+        <br>
+        <br>
+    </section>
+
+
+
+        {% endblock %}
+
+        <!-- Bootstrap core JS-->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+
+    </body>
+    <footer class="footer py-1 bg-warning" style="position: fixed; left: 0; bottom: 0; width: 100%; text-align: center;">
+        <div class="text-center">
+            <h6 class="m-0 text-center">
+                "Szaszłyk na węglach" SINCE 2021
+            </h6>
+            <p class="m-0 text-center">
+                created by
+                <a href="https://www.linkedin.com/in/andrew-fesenko-9b5313206/" style="text-decoration: none; color: black;">
+                    fesenkoaa
+                </a>
+            </p>
+        </div>
+    </footer>
+</html>

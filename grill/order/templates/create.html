@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+
+{% block content %}
+<br>
+<br>
+<br>
+    <h3 class="text-center">SPRAWDZIĆ</h3>
+    <table class="table text-center cart" style="width: 60%; margin-left:auto; margin-right:auto;">
+        <thead>
+        <tr>
+            <th>danie</th>
+            <th>ilość</th>
+            <th>cena</th>
+            <th>cena całkowita</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for item in cart %}
+            {% with product=item.product %}
+                <tr>
+                    <td>{{ product.title }}</td>
+                    <td>{{ item.quantity }}</td>
+                    <td class="num">{{ item.price }} zl.</td>
+                    <td class="num">{{ item.total_price }} zl.</td>
+                </tr>
+            {% endwith %}
+        {% endfor %}
+        <tr class="total">
+            <td colspan="1"></td>
+            <td></td>
+            <td><strong>Razem:</strong></td>
+            <td class="num"><strong>{{ cart.get_total_price }} zl.</strong></td>
+        </tr>
+        </tbody>
+    </table>
+    <div style="width: 55%">
+        <p class="text-center">
+            <a href="{% url 'cart:session-cart' %}" class="text-muted" style="color: black">edytować koszyk</a>
+        </p>
+    </div>
+
+    <br><br><br>
+    <div class="text-center">
+        <form action="." method="post" class="order-form" style="width: 40%; position: center; margin-left:auto; margin-right:auto;">
+            {{ form.as_p }}
+            <p class="text-muted" style="font-size: 12px">Klikając ten przycisk, tym samym składając zamówienie, wyrażasz zgodę na <strong>gromadzenie, przetwarzanie i ochronę moich danych osobowych.</strong></p>
+            <p><input type="submit" class="btn btn-warning btn-block px-4 my-1" value="złóż zamówienie"></p>
+            {% csrf_token %}
+        </form>
+    </div>
+    <br><br><br>
+
+{% endblock %}

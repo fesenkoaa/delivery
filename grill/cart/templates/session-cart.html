@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+
+<br>
+<br>
+<br>
+
+{% if messages %}
+    {% for message in messages %}
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+          <p class="text-center"><strong>{{ message }}</strong></p>
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    {% endfor %}
+{% endif %}
+    {% if cart %}
+    <h3 class="text-center">ZAMÓWIENIE</h3>
+    <table class="table text-center cart" style="width: 60%; margin-left:auto; margin-right:auto;">
+        <thead>
+        <tr>
+            <th>danie</th>
+            <th>ilość</th>
+            <th>cena</th>
+            <th>cena całkowita</th>
+            <th>usunąć</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for item in cart %}
+            {% with product=item.product %}
+                <tr>
+                    <td>{{ product.title }}</td>
+<!--                    <td>{{ item.quantity }}</td>-->
+                    <td>
+                        <form style="display: flex; margin-left: 30%; width: 80%;" action="{% url 'cart:cart_update' product.pk %}" method="POST">
+                            {% csrf_token %}
+                            <input class="form-control" name="quantity" style="size: fixed; width: 45px;" min="1" value="{{ item.quantity }}">
+                            <input type="submit" class="btn btn-outline-dark mt-auto" style="width: 100px;" value="zmień">
+                        </form>
+                    </td>
+                    <td class="num">{{ item.price }} zl.</td>
+                    <td class="num">{{ item.total_price }} zl.</td>
+                    <td><a href="{% url 'cart:cart_remove' product.id%}">
+                        <button class="btn py-1 btn-danger text-center">usunąć</button>
+                    </a></td>
+                </tr>
+            {% endwith %}
+        {% endfor %}
+        <tr class="total">
+            <td colspan="2"></td>
+            <td><strong>Razem:</strong></td>
+            <td class="num"><strong>{{ cart.get_total_price }} zl.</strong></td>
+            <td></td>
+        </tr>
+        </tbody>
+    </table>
+<br>
+    <p class="text-center">
+        <a href="{% url 'main_app:main' %}" style="color: black">kontynuować zakupy</a>
+    </p>
+    <p class="text-center"><a href="{% url 'order:order_create' %}">
+        <button class="btn btn-warning text-center">zamówić</button>
+    </a></p>
+    <br>
+    {%else%}
+    <br><br><br><br>
+    <h4 class="text-center">Twój koszyk jest pusty</h4>
+    {% endif %}
+
+<br><br><br>
+{% endblock %}

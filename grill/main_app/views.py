@@ -16,8 +16,6 @@ from .utils import recalc_cart
 
 from cart.forms import CartAddProductForm
 
-from config import map_token
-
 
 class BaseView(View):
 

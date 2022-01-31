@@ -27,7 +27,7 @@ def order_create(request):
                                          quantity=item['quantity'])
 
                 order_num = f'{order}'
-                message_string += f'{item["product"]}  –  ({item["price"]} zl. x {item["quantity"]} szt.) \n'
+                message_string += f'{item["product"]} ({item["quantity"]} шт.) {item["price"]} zl. \n'
 
             first_name = form.cleaned_data['first_name']
             last_name = form.cleaned_data['last_name']

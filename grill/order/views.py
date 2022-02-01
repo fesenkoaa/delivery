@@ -1,10 +1,8 @@
-import datetime
-
 from django.shortcuts import render, redirect
 from .models import OrderItem
 from .forms import OrderCreateForm
 from cart.cart import SessionCart
-from config import token, chat_id
+from order.config import token, chat_id
 from django.contrib import messages
 import datetime
 import requests

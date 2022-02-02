@@ -6,15 +6,23 @@ now = datetime.datetime.now()
 delta = datetime.timedelta(hours=1.5)
 with_delta = now + delta
 
+ORDER_TYPE = (
+    ('odbiór osobisty (+prezent)', 'odbiór osobisty (+prezent)'),
+    ('dowóz na adres (od 10zl.)', 'dowóz na adres (od 10zl.)')
+)
+
 
 class Order(models.Model):
     first_name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=50)
     email = models.EmailField(blank=True, null=True)
     phone = models.BigIntegerField(blank=True, null=True)
-    city = models.CharField(max_length=100)
-    address = models.CharField(max_length=250)
+    city = models.CharField(max_length=100, null=True, blank=True)
+    address = models.CharField(max_length=250, null=True, blank=True)
     message = models.CharField(max_length=250, null=True, blank=True)
+    # order_type = models.CharField(max_length=50, choices=ORDER_TYPE, blank=True)
+    order_type = models.CharField(max_length=50, blank=True)
+
     # order_time = models.TimeField(default=with_delta)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)

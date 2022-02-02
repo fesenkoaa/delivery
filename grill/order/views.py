@@ -31,6 +31,7 @@ def order_create(request):
             last_name = form.cleaned_data['last_name']
             phone = form.cleaned_data['phone']
             email = form.cleaned_data['email']
+            order_type = form.cleaned_data['order_type']
             city = form.cleaned_data['city']
             address = form.cleaned_data['address']
             message = form.cleaned_data['message']
@@ -43,7 +44,8 @@ def order_create(request):
                 f'телефон: {phone} \n' \
                 f'email: {email} \n' \
                 f'адрес: {city}, {address}\n' \
-                f'время: {time}\n\n\n' \
+                f'время: {time}\n' \
+                f'тип доставки: {order_type}\n\n\n' \
                 f'{order_num}:\n' \
                 f'{message_string} \n' \
                 f'счет: {cart.get_total_price()} zl.\n\n' \

@@ -44,8 +44,8 @@ def order_create(request):
                 f'телефон: {phone} \n' \
                 f'email: {email} \n' \
                 f'адрес: {city}, {address}\n' \
-                f'время: {time}\n' \
-                f'тип доставки: {order_type}\n\n\n' \
+                f'тип доставки: {order_type}\n' \
+                f'время: {time}\n\n\n' \
                 f'{order_num}:\n' \
                 f'{message_string} \n' \
                 f'счет: {cart.get_total_price()} zl.\n\n' \

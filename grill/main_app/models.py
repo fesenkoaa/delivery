@@ -44,6 +44,22 @@ class Product(models.Model):
         verbose_name_plural = "Products"
 
 
+class Comment(models.Model):
+
+    email = models.EmailField()
+    auth = models.CharField(max_length=50)
+    message = models.CharField(max_length=500)
+    date = models.DateField(auto_now_add=True)
+    time = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = '-time',
+        verbose_name = 'Comment'
+        verbose_name_plural = 'Comments'
+
+    def __str__(self):
+        return f'{self.auth} add a new comment'
+
 
 
 

@@ -6,6 +6,7 @@ urlpatterns = [
     path('', BaseView.as_view(), name='main'),
     path('about-us/', AboutPage.as_view(), name='about'),
     path('contact-us/', ContactPage.as_view(), name='contact'),
+    path('comments/', CommentPage.as_view(), name='comments'),
     path('main/', AllDishes.as_view(), name='all-dishes'),
     path('main-dishes/', MainDishesPage.as_view(), name='main-dishes'),
     path('salads/', SaladsPages.as_view(), name='salads'),

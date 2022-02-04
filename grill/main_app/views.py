@@ -147,3 +147,30 @@ class CartPage(View):
     def get(self, request):
         print(request.session)
         return render(request, 'session_cart.html')
+
+
+class CommentPage(View):
+
+    def get(self, request):
+
+        page_obj = Comment.objects.all().order_by('-time')
+        form = ReviewsForm
+
+        context = {
+            'page_obj': page_obj,
+            'form': form
+        }
+        return render(request, 'reviews.html', context)
+
+    def post(self, request):
+
+        form = ReviewsForm(request.POST)
+
+        if form.is_valid():
+            form.save()
+
+            messages.success(request, 'Twój komentarz został wysłany.')
+            return redirect('main_app:comments')
+
+        messages.success(request, 'Coś jest nie tak. Spróbuj ponownie.')
+        return redirect('main_app:comments')

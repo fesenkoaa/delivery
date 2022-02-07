@@ -44,7 +44,6 @@ MIDDLEWARE = [
 ]
 
 MIDDLEWARE_CLASSES = [
-    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
 ]
 
@@ -78,30 +77,17 @@ WSGI_APPLICATION = 'grill.wsgi.application'
 
 # Database
 
-if os.getenv('DATABASE_URL', '') != '':
-    r = _urlparse(os.environ.get('DATABASE_URL'))
-    DATABASES = {
-        'default': {
-            "ENGINE": "django.db.backends.postgresql_psycopg2",
-            "NAME": os.path.relpath(r.path, "/"),
-            "USER": r.username,
-            "PASSWORD": r.password,
-            "HOST": r.hostname,
-            "PORT": r.port,
-            "OPTIONS": {"sslmode": "require"},
-        }
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'grill_delivery',
+        'USER': 'fesenkoaa',
+        'PASSWORD': '231105',
+        'HOST': 'localhost',
+        'POST': ''
     }
-else:
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.postgresql_psycopg2',
-            'NAME': 'grill_delivery',
-            'USER': 'fesenkoaa',
-            'PASSWORD': '231105',
-            'HOST': 'localhost',
-            'POST': ''
-        }
-    }
+}
 
 
 # Password validation

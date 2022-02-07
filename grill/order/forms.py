@@ -30,6 +30,10 @@ class OrderCreateForm(forms.ModelForm):
         widget=forms.Select(
             attrs={'class': 'form-control'}
         ))
+    fork = forms.IntegerField(
+        widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': '* ilość nożownictwo'}),
+        label="", required=True
+    )
     city = forms.CharField(
         widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'miasto'}),
         label="", required=False
@@ -45,7 +49,7 @@ class OrderCreateForm(forms.ModelForm):
 
     class Meta:
         model = Order
-        fields = ('first_name', 'last_name', 'phone', 'email', 'order_type', 'city', 'address', 'message')
+        fields = ('first_name', 'last_name', 'phone', 'email', 'order_type', 'city', 'address', 'fork', 'message')
         # widgets = {
         #     'first_name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': '* imię', 'label': None}),
         #     'last_name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': '* nazwisko'}),

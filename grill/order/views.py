@@ -30,11 +30,21 @@ def order_create(request):
             first_name = form.cleaned_data['first_name']
             last_name = form.cleaned_data['last_name']
             phone = form.cleaned_data['phone']
-            email = form.cleaned_data['email']
+            if form.cleaned_data['email']:
+                email = form.cleaned_data['email']
+            else:
+                email = ' -'
             order_type = form.cleaned_data['order_type']
-            city = form.cleaned_data['city']
-            address = form.cleaned_data['address']
-            message = form.cleaned_data['message']
+            fork = form.cleaned_data['fork']
+            # city = form.cleaned_data['city']
+            if form.cleaned_data['address']:
+                address = str(form.cleaned_data['address'] + ', ' + form.cleaned_data['city'])
+            else:
+                address = ' -'
+            if form.cleaned_data['message']:
+                message = form.cleaned_data['message']
+            else:
+                message = ' -'
 
             time = datetime.datetime.now()
             time = time.strftime("%H:%M")
@@ -43,8 +53,9 @@ def order_create(request):
                 f'гость: {first_name} {last_name} \n' \
                 f'телефон: {phone} \n' \
                 f'email: {email} \n' \
-                f'адрес: {city}, {address}\n' \
+                f'адрес: {address}\n' \
                 f'тип доставки: {order_type}\n' \
+                f'кол-во приборов: {fork}\n' \
                 f'время: {time}\n\n\n' \
                 f'{order_num}:\n' \
                 f'{message_string} \n' \

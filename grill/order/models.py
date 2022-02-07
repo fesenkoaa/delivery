@@ -22,6 +22,7 @@ class Order(models.Model):
     message = models.CharField(max_length=250, null=True, blank=True)
     # order_type = models.CharField(max_length=50, choices=ORDER_TYPE, blank=True)
     order_type = models.CharField(max_length=50, blank=True)
+    fork = models.IntegerField(blank=True, default=0)
 
     # order_time = models.TimeField(default=with_delta)
     created = models.DateTimeField(auto_now_add=True)

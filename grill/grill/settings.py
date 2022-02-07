@@ -1,15 +1,16 @@
 from pathlib import Path
 import os
+from django.core.management.utils import get_random_secret_key
+from django.utils.http import _urlparse
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = 'django-insecure-47l+8ul%wmgqat(v#r7t14*7lt3*5b(o-^_ry@c%r)4f60-&5@'
+SECRET_KEY = os.getenv("DJANGO SECRET KEY", get_random_secret_key())
 
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
-
+ALLOWED_HOSTS = os.getenv('DJANGO_SECRET_KEY', '127.0.0.1,localhost').split(',')
 
 # Application definition
 
@@ -31,7 +32,6 @@ INSTALLED_APPS = [
 #     'PAGE_SIZE': 2
 # }
 
-stripe_api_secret_key = "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"
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -77,18 +77,30 @@ WSGI_APPLICATION = 'grill.wsgi.application'
 
 # Database
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'grill_delivery',
-        # 'USER': db_user,
-        'USER': 'fesenkoaa',
-        # 'PASSWORD': db_password,
-        'PASSWORD': '231105',
-        'HOST': 'localhost',
-        'POST': ''
+if os.getenv('DATABASE_URL', '') != '':
+    r = _urlparse(os.environ.get('DATABASE_URL'))
+    DATABASES = {
+        'default': {
+            "ENGINE": "django.db.backends.postgresql_psycopg2",
+            "NAME": os.path.relpath(r.path, "/"),
+            "USER": r.username,
+            "PASSWORD": r.password,
+            "HOST": r.hostname,
+            "PORT": r.port,
+            "OPTIONS": {"sslmode": "require"},
+        }
     }
-}
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql_psycopg2',
+            'NAME': 'grill_delivery',
+            'USER': 'fesenkoaa',
+            'PASSWORD': '231105',
+            'HOST': 'localhost',
+            'POST': ''
+        }
+    }
 
 
 # Password validation

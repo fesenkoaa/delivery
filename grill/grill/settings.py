@@ -44,6 +44,7 @@ MIDDLEWARE = [
 ]
 
 MIDDLEWARE_CLASSES = [
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
 ]
 

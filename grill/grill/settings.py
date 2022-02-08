@@ -1,16 +1,8 @@
 from pathlib import Path
 import os
-from django.core.management.utils import get_random_secret_key
-from django.utils.http import _urlparse
 
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(__file__).resolve().parent.parent
-
-SECRET_KEY = os.getenv("DJANGO SECRET KEY", get_random_secret_key())
-
-DEBUG = False
-
-ALLOWED_HOSTS = os.getenv('DJANGO_SECRET_KEY', '127.0.0.1,localhost').split(',')
+# BASE_DIR = Path(__file__).resolve().parent.parent
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # Application definition
 
@@ -58,7 +50,7 @@ ROOT_URLCONF = 'grill.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [f'{BASE_DIR}/main_app/templates/'],
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -73,21 +65,6 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'grill.wsgi.application'
-
-
-# Database
-
-
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'grill_delivery',
-        'USER': 'fesenkoaa',
-        'PASSWORD': '231105',
-        'HOST': 'localhost',
-        'POST': ''
-    }
-}
 
 
 # Password validation
@@ -109,7 +86,6 @@ AUTH_PASSWORD_VALIDATORS = [
 
 
 # Internationalization
-# https://docs.djangoproject.com/en/3.2/topics/i18n/
 
 LANGUAGE_CODE = 'en-us'
 
@@ -125,15 +101,15 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 
 STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')
-
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-
-STATICFILES_DIRS = (
-    os.path.join(BASE_DIR, 'static_dev'),
-)
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
+
+
+try:
+    from .local_settings import *
+except ImportError:
+    from .prod_settings import *

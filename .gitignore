@@ -2,3 +2,6 @@
 .DS_Store
 grill/config.py
 venv
+grill/cart/migrations
+grill/main_app/migrations
+grill/order/migrations

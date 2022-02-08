@@ -109,7 +109,5 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 
-try:
-    from .local_settings import *
-except ImportError:
-    from .prod_settings import *
+# from .local_settings import *  # is using on debug version
+from .prod_settings import *  # is using on production version

@@ -8,14 +8,24 @@ DEBUG = False
 
 ALLOWED_HOSTS = ["127.0.0.1", "*"]
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#         'NAME': 'delivery',
+#         'USER': 'user_db',
+#         'PASSWORD': '123456',
+#         'HOST': 'localhost',
+#         'POST': '5432'
+#     }
+# }
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'delivery',
-        'USER': 'user_db',
-        'PASSWORD': '123456',
+        'NAME': 'grill_delivery',
+        'USER': 'fesenkoaa',
+        'PASSWORD': '231105',
         'HOST': 'localhost',
-        'POST': '5432'
+        'POST': ''
     }
 }
 
